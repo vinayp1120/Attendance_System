@@ -1,3 +1,5 @@
+package project;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,15 +25,17 @@ public class AttendanceApp {
         JLabel titleLabel = new JLabel("Scan QR Code to Mark Attendance", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-        JButton scanButton = new JButton("Scan QR Code");
+        JTextField studentIdField = new JTextField(); // Text field for student ID
         JLabel resultLabel = new JLabel("Waiting for scan...", JLabel.CENTER);
+        JButton scanButton = new JButton("Scan QR Code");
 
         scanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String qrData = QrScanner.scanQRCode(); // Get Subject ID from QR
                 if (!qrData.equals("QR Code not detected!")) {
-                    markAttendance(qrData, 1); // Assume student_id = 1
+                    int studentId = Integer.parseInt(studentIdField.getText()); // Get student ID from text field
+                    markAttendance(qrData, studentId); // Use the input student ID
                     resultLabel.setText("Attendance Marked for Subject ID: " + qrData);
                 } else {
                     resultLabel.setText("QR Code not detected!");
@@ -40,7 +44,8 @@ public class AttendanceApp {
         });
 
         frame.add(titleLabel, BorderLayout.NORTH);
-        frame.add(scanButton, BorderLayout.CENTER);
+        frame.add(studentIdField, BorderLayout.CENTER); // Add text field to the center
+        frame.add(scanButton, BorderLayout.SOUTH);
         frame.add(resultLabel, BorderLayout.SOUTH);
         frame.setVisible(true);
     }

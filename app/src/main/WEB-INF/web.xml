@@ -1,0 +1,12 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         version="3.0">
+    <servlet>
+        <servlet-name>MarkAttendanceServlet</servlet-name>
+        <servlet-class>MarkAttendanceServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MarkAttendanceServlet</servlet-name>
+        <url-pattern>/mark-attendance</url-pattern>
+    </servlet-mapping>
+</web-app>
