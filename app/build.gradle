@@ -1,27 +1,22 @@
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
     id 'war'
 }
 
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
     testImplementation libs.junit.jupiter
-
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // This dependency is used by the application.
-     // Webcam Capture API for QR scanning
+    // Webcam Capture API for QR scanning
     implementation 'com.github.sarxos:webcam-capture:0.3.12'
 
     // ZXing Library for QR Code Processing
-    implementation 'com.google.zxing:core:3.4.1'
-    implementation 'com.google.zxing:javase:3.4.1'
+    implementation 'com.google.zxing:core:3.5.0'
+    implementation 'com.google.zxing:javase:3.5.0'
 
     // FlatLaf for Modern UI Design
     implementation 'com.formdev:flatlaf:3.2'
@@ -29,30 +24,41 @@ dependencies {
     // MySQL JDBC Driver
     implementation 'mysql:mysql-connector-java:8.0.33'
 
-    // Servlet API (if using Java Servlets for backend)
+    // Servlet API
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
-    implementation libs.guava
-  
-    implementation 'com.google.zxing:core:3.5.0'
-    implementation 'com.google.zxing:javase:3.5.0'
 
+    implementation libs.guava
     implementation 'org.jfree:jfreechart:1.5.3'
-    
 }
+
 war {
-    archiveFileName = 'attendance.war' // 👈 Name of the WAR file
+    archiveFileName = 'attendance.war'
 }
-task runQRGenerator(type: JavaExec) {
-    mainClass = 'project.QrGenerator' // Ensure this is set correctly
+
+task runAttendanceApp(type: JavaExec) {
+    mainClass = 'project.AttendanceApp'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task runQrScanner(type: JavaExec) {
+    mainClass = 'project.QrScanner'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task runQrGenerator(type: JavaExec) {
+    mainClass = 'project.QrGenerator'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task runQrDecoder(type: JavaExec) { // Added this task
+    mainClass = 'project.QrDecoder'
     classpath = sourceSets.main.runtimeClasspath
 }
 
 application {
-    // Define the main class for the application.
-    mainClass = 'project.App' // This can remain as is if App is the main entry point
+    mainClass = 'project.App'
 }
 
 tasks.named('test') {
-    // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
